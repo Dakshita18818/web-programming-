@@ -1,0 +1,175 @@
+print("-------EXPENSE TRACKER-------")
+
+# Salary input loop
+while True:
+    salary_input = input("Enter your monthly salary (Rupees): ").strip()
+
+    if salary_input.isdigit():
+        salary = int(salary_input)
+        break
+
+    print("Please enter salary in numeric format.\n")
+
+
+# Incentive question loop
+while True:
+    i = input("Did you receive any incentives/bonuses? [y/N]: ").strip().lower()
+
+    if i == "y":
+        print("Yaaay!")
+
+        while True:
+            inc_input = input("\nHow much? : ").strip()
+
+            if inc_input.isdigit():
+                inc = int(inc_input)
+                break
+
+            print("Please enter a valid numeric incentive amount.")
+
+        break
+
+    elif i in ("n", ""):
+        print("Awwww, it's okay...")
+        inc = 0
+        break
+
+    else:
+        print("Invalid response, type y/n to proceed.\n")
+
+
+# Total income
+total_income = salary + inc
+
+
+# Loan question loop
+while True:
+    p = input("Do you have loans? [y/N]: ").strip().lower()
+
+    if p == "y":
+
+        # Total loan amount
+        while True:
+            loan_input = input("Okay, how much is your total loan? : ").strip()
+
+            if loan_input.isdigit():
+                loan = int(loan_input)
+                break
+
+            print("Please enter a valid numeric loan amount.")
+
+        # Loan payment
+        while True:
+            l_amt_input = input(
+                "How much do you wish to pay towards the loan? : "
+            ).strip()
+
+            if l_amt_input.isdigit():
+                l_amt = int(l_amt_input)
+
+                if l_amt <= loan:
+                    break
+
+                print("You cannot pay more than your total loan.")
+
+            else:
+                print("Please enter a valid numeric amount.")
+
+        remaining_loan = loan - l_amt
+
+        print("Nice!")
+        print("Your new in-hand amount is:", total_income - l_amt)
+        print("Remaining loan:", remaining_loan)
+
+        break
+
+    elif p in ("n", ""):
+        loan = 0
+        l_amt = 0
+        remaining_loan = 0
+
+        print("Cool, you're a free man (or woman...)")
+        break
+
+    else:
+        print(
+            "Dude, say if you have a loan on your head, "
+            "I'm not a loan shark...\n"
+        )
+
+
+# Income summary
+print("\n---INCOME SUMMARY---")
+print(f"Salary: ₹{salary}")
+print(f"Incentives: ₹{inc}")
+print(f"Total Income: ₹{total_income}")
+print(f"Total Loan Liability: ₹{loan}")
+print(f"Loan Payment: ₹{l_amt}")
+print(f"Remaining Loan: ₹{remaining_loan}")
+
+
+# Expenses
+print("\n---EXPENSES---")
+
+while True:
+    spending_input = input(
+        "How much did you spend in the entire month? "
+    ).strip()
+
+    if spending_input.isdigit():
+        spending = int(spending_input)
+        break
+
+    print("Please enter spending in numeric format.\n")
+
+
+# Calculations
+net_balance = total_income - spending - l_amt
+
+
+# Final summary
+print("\n---FINAL SUMMARY---")
+print(f"Total Income: ₹{total_income}")
+print(f"Total Expenses: ₹{spending}")
+print(f"Loan Paid: ₹{l_amt}")
+print(f"Remaining Loan: ₹{remaining_loan}")
+print(f"Net Remaining: ₹{net_balance}/-")
+
+
+# Detailed expense breakdown
+print("\nWhere did you spend your money?")
+print("(Enter category and amount, or press Enter when done)")
+
+expenses = []
+
+while True:
+    item = input("Expense name (or Enter to finish): ").strip()
+
+    if item == "":
+        break
+
+    while True:
+        amount_input = input(f"How much for {item}?: ").strip()
+
+        if amount_input.isdigit():
+            amount = int(amount_input)
+
+            expenses.append({
+                "item": item,
+                "amount": amount
+            })
+
+            break
+
+        print("Please enter a numeric amount.")
+
+
+# Display breakdown
+print("\n---SPENDING BREAKDOWN---")
+
+if len(expenses) == 0:
+    print("No individual expenses were entered.")
+
+else:
+    for exp in expenses:
+        print(f"- {exp['item']}: ₹{exp['amount']}")
